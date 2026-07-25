@@ -128,25 +128,31 @@ class _homeScreenBuilder extends State<HomeScreenBody>{
             height: 30,
           ),
 
-          // listtile
-          ...contact.map((user) {
-            return Column(
+          // listtile, uses expanded because the column does  not allow a listView to take infinite height, so it gives error and the items does not scrolls
+          Expanded(
+            child: ListView(
               children: [
-                ListTile(
-                  tileColor: Color(0XFFF2F2F3),
-                  leading: Icon(Icons.person, color: Color(0XFF695148), size: 45,),
-                  title: Text(user.name),
-                  titleTextStyle: TextStyle(color: Colors.red, fontSize: 18, fontWeight: FontWeight(600)),
-                  subtitle: Text(user.phone),
-                  trailing: Icon(Icons.phone, color: Colors.blue, size: 30,),
-                  horizontalTitleGap: 24,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+                ...contact.map((user) {
+                  return Column(
+                    children: [
+                      ListTile(
+                        tileColor: Color(0XFFF2F2F3),
+                        leading: Icon(Icons.person, color: Color(0XFF695148), size: 45,),
+                        title: Text(user.name),
+                        titleTextStyle: TextStyle(color: Colors.red, fontSize: 18, fontWeight: FontWeight(600)),
+                        subtitle: Text(user.phone),
+                        trailing: Icon(Icons.phone, color: Colors.blue, size: 30,),
+                        horizontalTitleGap: 24,
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                    ],
+                  );
+                },).toList(),
               ],
-            );
-          },).toList(),
+            ),
+          )
         ],
       ),
     );
