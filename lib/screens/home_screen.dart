@@ -50,9 +50,24 @@ class HomeScreenBody extends StatefulWidget {
 
 class _homeScreenBuilder extends State<HomeScreenBody>{
 
-  final List<User> contact = [];
+  // some default user according to the assignment
+  final List<User> contact = [
+    User(name: "Hasib", phone: "01647856287"),
+    User(name: "Tanvir", phone: "0154636362"),
+    User(name: "Rahat", phone: "0154636362"),
+    User(name: "Johaer", phone: "0154636362"),
+    User(name: "Bithi", phone: "0154636362"),
+    User(name: "Samiha", phone: "0154636362"),
+  ];
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.text = contact[0].name;
+    phoneController.text = contact[0].phone;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +157,7 @@ class _homeScreenBuilder extends State<HomeScreenBody>{
                         titleTextStyle: TextStyle(color: Colors.red, fontSize: 18, fontWeight: FontWeight(600)),
                         subtitle: Text(user.phone),
                         trailing: Icon(Icons.phone, color: Colors.blue, size: 30,),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(5)),
                         horizontalTitleGap: 24,
                       ),
                       const SizedBox(
