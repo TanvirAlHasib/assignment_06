@@ -1,3 +1,4 @@
+import 'package:assignment06/models/user.model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,8 +39,20 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 // app bar ends here
 
 // here starts body
-class HomeScreenBody extends StatelessWidget {
-  const HomeScreenBody({super.key});
+class HomeScreenBody extends StatefulWidget {
+  HomeScreenBody({super.key});
+
+  @override
+  State<StatefulWidget> createState() {
+    return _homeScreenBuilder();
+  }
+}
+
+class _homeScreenBuilder extends State<HomeScreenBody>{
+
+  final List<User> contact = [];
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,26 +62,30 @@ class HomeScreenBody extends StatelessWidget {
       child: Column(
         children: [
           TextFormField(
+            controller: nameController,
             keyboardType: TextInputType.name,
             style: TextStyle(
-              fontSize: 17
+                fontSize: 17
             ),
             decoration: InputDecoration(
-              hint: Text("Enter your name", style: TextStyle(
-                fontSize: 17,
-              ),),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8)
-              )
+                hint: Text("Enter your name", style: TextStyle(
+                  fontSize: 17,
+                ),),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8)
+                )
             ),
             validator: (value) {
               return (value == null) || (value.length < 4) ? "name must have length more than 4" : null;
             },
           ),
-          SizedBox(
+
+          const SizedBox(
             height: 10,
           ),
+
           TextFormField(
+            controller: phoneController,
             keyboardType: TextInputType.phone,
             style: TextStyle(
                 fontSize: 17
@@ -85,35 +102,54 @@ class HomeScreenBody extends StatelessWidget {
               return (value == null) || (value.length != 11) ? "Invalid phone number" : null;
             },
           ),
-          SizedBox(
+
+          const SizedBox(
             height: 16,
           ),
-          ElevatedButton(onPressed: (){},
+
+          ElevatedButton(onPressed: (){
+            setState(() {
+              User user = User(name: nameController.text, phone: phoneController.text);
+              contact.add(user);
+            });
+          },
             style: ElevatedButton.styleFrom(
-              minimumSize: Size(double.infinity, 46),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(5)),
-              backgroundColor: Color(0XFF5D7989)
+                minimumSize: Size(double.infinity, 46),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(5)),
+                backgroundColor: Color(0XFF5D7989)
             ),
             child: Text("Add", style: TextStyle(
-              color: Colors.white,
-              fontSize: 15
+                color: Colors.white,
+                fontSize: 15
             ),),
           ),
-          SizedBox(
+
+          const SizedBox(
             height: 30,
           ),
+
           // listtile
-          ListTile(
-            tileColor: Color(0XFFF2F2F3),
-            leading: Icon(Icons.person, color: Color(0XFF695148), size: 45,),
-            title: Text("Hasib"),
-            titleTextStyle: TextStyle(color: Colors.red, fontSize: 18, fontWeight: FontWeight(600)),
-            subtitle: Text("01521716060"),
-            trailing: Icon(Icons.phone, color: Colors.blue, size: 30,),
-            horizontalTitleGap: 24,
-          )
+          ...contact.map((user) {
+            return Column(
+              children: [
+                ListTile(
+                  tileColor: Color(0XFFF2F2F3),
+                  leading: Icon(Icons.person, color: Color(0XFF695148), size: 45,),
+                  title: Text(user.name),
+                  titleTextStyle: TextStyle(color: Colors.red, fontSize: 18, fontWeight: FontWeight(600)),
+                  subtitle: Text(user.phone),
+                  trailing: Icon(Icons.phone, color: Colors.blue, size: 30,),
+                  horizontalTitleGap: 24,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+              ],
+            );
+          },).toList(),
         ],
       ),
     );
   }
 }
+// body ends here
